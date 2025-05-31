@@ -1,797 +1,4 @@
 
-// // // // // // // // import { Actor, Keys, CollisionType, Vector } from "excalibur";
-// // // // // // // // import { Resources } from "./resources.js";
-// // // // // // // // import { Bullet } from "./bullet.js";
-
-// // // // // // // // export class Shooter extends Actor {
-// // // // // // // //   constructor() {
-// // // // // // // //     super({
-// // // // // // // //       width: 40,
-// // // // // // // //       height: 60,
-// // // // // // // //       collisionType: CollisionType.Active,
-// // // // // // // //     });
-
-// // // // // // // //     this.speed = 200;
-// // // // // // // //     this.name = "shooter";
-// // // // // // // //     this.lastDirection = new Vector(1, 0);
-// // // // // // // //     this.targetRotation = 0;
-// // // // // // // //   }
-
-// // // // // // // //   onInitialize(engine) {
-// // // // // // // //     this.graphics.use(Resources.Shooter.toSprite());
-// // // // // // // //     this.pos = new Vector(engine.halfDrawWidth, engine.halfDrawHeight);
-
-// // // // // // // //     // Movement
-// // // // // // // //     engine.input.keyboard.on("hold", (evt) => {
-// // // // // // // //       const dir = new Vector(0, 0);
-// // // // // // // //       if (evt.key === Keys.W) dir.y = -1;
-// // // // // // // //       if (evt.key === Keys.S) dir.y = 1;
-// // // // // // // //       if (evt.key === Keys.A) dir.x = -1;
-// // // // // // // //       if (evt.key === Keys.D) dir.x = 1;
-
-// // // // // // // //       if (dir.x !== 0 || dir.y !== 0) {
-// // // // // // // //         this.lastDirection = dir.normalize();
-// // // // // // // //         this.vel = this.lastDirection.scale(this.speed);
-// // // // // // // //         this.targetRotation = this.lastDirection.toAngle();
-// // // // // // // //       }
-// // // // // // // //     });
-
-// // // // // // // //     engine.input.keyboard.on("release", (evt) => {
-// // // // // // // //       if ([Keys.W, Keys.A, Keys.S, Keys.D].includes(evt.key)) {
-// // // // // // // //         this.vel = Vector.Zero;
-// // // // // // // //       }
-// // // // // // // //     });
-
-// // // // // // // //     // Shooting
-// // // // // // // //     engine.input.keyboard.on("press", (evt) => {
-// // // // // // // //       if (evt.key === Keys.Space) {
-// // // // // // // //         const bullet = new Bullet(this.pos.clone(), this.lastDirection.clone());
-// // // // // // // //         engine.add(bullet);
-// // // // // // // //       }
-// // // // // // // //     });
-// // // // // // // //   }
-
-// // // // // // // //   // Smooth rotation
-// // // // // // // //   lerpAngle(a, b, t) {
-// // // // // // // //     let diff = b - a;
-// // // // // // // //     if (diff < -Math.PI) diff += Math.PI * 2;
-// // // // // // // //     if (diff > Math.PI) diff -= Math.PI * 2;
-// // // // // // // //     return a + diff * t;
-// // // // // // // //   }
-
-// // // // // // // //   onPreUpdate(engine, delta) {
-// // // // // // // //     const smoothing = 10;
-// // // // // // // //     this.rotation = this.lerpAngle(this.rotation, this.targetRotation, delta / 1000 * smoothing);
-// // // // // // // //   }
-// // // // // // // // }
-
-
-// // // // // // // import { Actor, Keys, CollisionType, Vector } from "excalibur";
-// // // // // // // import { Resources } from "./resources.js";
-// // // // // // // import { Bullet } from "./bullet.js";
-
-// // // // // // // export class Shooter extends Actor {
-// // // // // // //   constructor() {
-// // // // // // //     super({
-// // // // // // //       width: 40,
-// // // // // // //       height: 60,
-// // // // // // //       collisionType: CollisionType.Active,
-// // // // // // //     });
-
-// // // // // // //     this.speed = 200;
-// // // // // // //     this.name = "shooter";
-// // // // // // //     this.lastDirection = new Vector(1, 0);
-// // // // // // //     this.targetRotation = 0;
-// // // // // // //   }
-
-// // // // // // //   onInitialize(engine) {
-// // // // // // //     this.graphics.use(Resources.Shooter.toSprite());
-// // // // // // //     this.pos = new Vector(engine.halfDrawWidth, engine.halfDrawHeight);
-
-// // // // // // //     engine.input.keyboard.on("hold", (evt) => {
-// // // // // // //       const dir = new Vector(0, 0);
-// // // // // // //       if (evt.key === Keys.W) dir.y = -1;
-// // // // // // //       if (evt.key === Keys.S) dir.y = 1;
-// // // // // // //       if (evt.key === Keys.A) dir.x = -1;
-// // // // // // //       if (evt.key === Keys.D) dir.x = 1;
-
-// // // // // // //       if (dir.x !== 0 || dir.y !== 0) {
-// // // // // // //         this.lastDirection = dir.normalize();
-// // // // // // //         this.vel = this.lastDirection.scale(this.speed);
-// // // // // // //         this.targetRotation = this.lastDirection.toAngle();
-// // // // // // //       }
-// // // // // // //     });
-
-// // // // // // //     engine.input.keyboard.on("release", (evt) => {
-// // // // // // //       if ([Keys.W, Keys.A, Keys.S, Keys.D].includes(evt.key)) {
-// // // // // // //         this.vel = Vector.Zero;
-// // // // // // //       }
-// // // // // // //     });
-
-// // // // // // //     // Mouse click to shoot
-// // // // // // //     engine.input.pointers.primary.on("down", (evt) => {
-// // // // // // //       const mousePos = evt.worldPos;
-// // // // // // //       const direction = mousePos.sub(this.pos).normalize();
-// // // // // // //       const bullet = new Bullet(this.pos.clone(), direction);
-// // // // // // //       engine.add(bullet);
-// // // // // // //     });
-// // // // // // //   }
-
-// // // // // // //   lerpAngle(a, b, t) {
-// // // // // // //     let diff = b - a;
-// // // // // // //     if (diff < -Math.PI) diff += Math.PI * 2;
-// // // // // // //     if (diff > Math.PI) diff -= Math.PI * 2;
-// // // // // // //     return a + diff * t;
-// // // // // // //   }
-
-// // // // // // //   onPreUpdate(engine, delta) {
-// // // // // // //     const smoothing = 10;
-// // // // // // //     this.rotation = this.lerpAngle(
-// // // // // // //       this.rotation,
-// // // // // // //       this.targetRotation,
-// // // // // // //       (delta / 1000) * smoothing
-// // // // // // //     );
-// // // // // // //   }
-// // // // // // // // }
-// // // // // // // import { Actor, Keys, CollisionType, Vector } from "excalibur";
-// // // // // // // import { Resources } from "./resources.js";
-// // // // // // // import { Bullet } from "./bullet.js";
-
-// // // // // // // export class Shooter extends Actor {
-// // // // // // //   constructor() {
-// // // // // // //     super({
-// // // // // // //       width: 40,
-// // // // // // //       height: 60,
-// // // // // // //       collisionType: CollisionType.Active,
-// // // // // // //     });
-
-// // // // // // //     this.speed = 200;
-// // // // // // //     this.name = "shooter";
-// // // // // // //     this.targetRotation = 0;
-// // // // // // //     this.currentRotation = 0;  // houd huidige rotatie bij
-// // // // // // //   }
-
-// // // // // // //   onInitialize(engine) {
-// // // // // // //     this.graphics.use(Resources.Shooter.toSprite());
-// // // // // // //     this.pos = new Vector(engine.halfDrawWidth, engine.halfDrawHeight);
-
-// // // // // // //     // Muisbeweging opslaan voor rotatie
-// // // // // // //     engine.input.pointers.primary.on("move", (evt) => {
-// // // // // // //       const mousePos = evt.worldPos;
-// // // // // // //       const direction = mousePos.sub(this.pos);
-// // // // // // //       if (direction.magnitude > 0) {  // hier zonder ()
-// // // // // // //         this.targetRotation = direction.toAngle();
-// // // // // // //       }
-// // // // // // //     });
-
-// // // // // // //     // Schieten met muisklik
-// // // // // // //     engine.input.pointers.primary.on("down", (evt) => {
-// // // // // // //       const direction = Vector.fromAngle(this.targetRotation);
-// // // // // // //       const bullet = new Bullet(this.pos.clone(), direction);
-// // // // // // //       engine.add(bullet);
-// // // // // // //     });
-// // // // // // //   }
-
-// // // // // // //   lerpAngle(a, b, t) {
-// // // // // // //     let diff = b - a;
-// // // // // // //     if (diff < -Math.PI) diff += Math.PI * 2;
-// // // // // // //     if (diff > Math.PI) diff -= Math.PI * 2;
-// // // // // // //     return a + diff * t;
-// // // // // // //   }
-
-// // // // // // //   onPreUpdate(engine, delta) {
-// // // // // // //     // Bewegingsinput aflezen
-// // // // // // //     const moveDir = new Vector(0, 0);
-// // // // // // //     if (engine.input.keyboard.isHeld(Keys.W)) moveDir.y -= 1;
-// // // // // // //     if (engine.input.keyboard.isHeld(Keys.S)) moveDir.y += 1;
-// // // // // // //     if (engine.input.keyboard.isHeld(Keys.A)) moveDir.x -= 1;
-// // // // // // //     if (engine.input.keyboard.isHeld(Keys.D)) moveDir.x += 1;
-
-// // // // // // //     if (moveDir.magnitude > 0) {  // hier ook zonder ()
-// // // // // // //       this.vel = moveDir.normalize().scale(this.speed);
-// // // // // // //     } else {
-// // // // // // //       this.vel = Vector.Zero;
-// // // // // // //     }
-
-// // // // // // //     // Smooth rotatie naar muispositie
-// // // // // // //     const smoothing = 10;
-// // // // // // //     this.currentRotation = this.lerpAngle(this.currentRotation, this.targetRotation, delta / 1000 * smoothing);
-// // // // // // //     this.rotation = this.currentRotation;
-// // // // // // //   }
-// // // // // // // }
-
-
-// // // // // // import { Actor, Keys, CollisionType, Vector } from "excalibur";
-// // // // // // import { Resources } from "./resources.js";
-// // // // // // import { Bullet } from "./bullet.js";
-
-// // // // // // export class Shooter extends Actor {
-// // // // // //   constructor() {
-// // // // // //     super({
-// // // // // //       width: 40,
-// // // // // //       height: 60,
-// // // // // //       collisionType: CollisionType.Active,
-// // // // // //     });
-
-// // // // // //     this.speed = 200;
-// // // // // //     this.name = "shooter";
-// // // // // //     this.targetRotation = 0;
-// // // // // //     this.currentRotation = 0;
-
-// // // // // //     this.scale = new Vector(0.6, 0.6); // kleiner maken
-// // // // // //   }
-
-// // // // // //   onInitialize(engine) {
-// // // // // //     this.graphics.use(Resources.Shooter.toSprite());
-// // // // // //     this.pos = new Vector(engine.halfDrawWidth, engine.halfDrawHeight);
-
-// // // // // //     engine.input.pointers.primary.on("move", (evt) => {
-// // // // // //       const mousePos = evt.worldPos;
-// // // // // //       const direction = mousePos.sub(this.pos);
-// // // // // //       if (direction.magnitude > 0) {
-// // // // // //         this.targetRotation = direction.toAngle();
-// // // // // //       }
-// // // // // //     });
-
-// // // // // //     engine.input.pointers.primary.on("down", (evt) => {
-// // // // // //       const direction = Vector.fromAngle(this.targetRotation);
-// // // // // //       const bullet = new Bullet(this.pos.clone(), direction);
-// // // // // //       engine.add(bullet);
-// // // // // //     });
-// // // // // //   }
-
-// // // // // //   lerpAngle(a, b, t) {
-// // // // // //     let diff = b - a;
-// // // // // //     if (diff < -Math.PI) diff += Math.PI * 2;
-// // // // // //     if (diff > Math.PI) diff -= Math.PI * 2;
-// // // // // //     return a + diff * t;
-// // // // // //   }
-
-// // // // // //   onPreUpdate(engine, delta) {
-// // // // // //     const moveDir = new Vector(0, 0);
-// // // // // //     if (engine.input.keyboard.isHeld(Keys.W)) moveDir.y -= 1;
-// // // // // //     if (engine.input.keyboard.isHeld(Keys.S)) moveDir.y += 1;
-// // // // // //     if (engine.input.keyboard.isHeld(Keys.A)) moveDir.x -= 1;
-// // // // // //     if (engine.input.keyboard.isHeld(Keys.D)) moveDir.x += 1;
-
-// // // // // //     if (moveDir.magnitude > 0) {
-// // // // // //       this.vel = moveDir.normalize().scale(this.speed);
-// // // // // //     } else {
-// // // // // //       this.vel = Vector.Zero;
-// // // // // //     }
-
-// // // // // //     const smoothing = 10;
-// // // // // //     this.currentRotation = this.lerpAngle(this.currentRotation, this.targetRotation, delta / 1000 * smoothing);
-// // // // // //     this.rotation = this.currentRotation;
-// // // // // //   }
-
-// // // // // //   onPostUpdate(engine, delta) {
-// // // // // //     // clamp positie zó dat shooter niet buiten level kan
-// // // // // //     const halfWidth = (this.width * this.scale.x) / 2;
-// // // // // //     const halfHeight = (this.height * this.scale.y) / 2;
-
-// // // // // //     const minX = 0 + halfWidth;
-// // // // // //     const minY = 0 + halfHeight;
-// // // // // //     const maxX = 2000 - halfWidth;
-// // // // // //     const maxY = 1200 - halfHeight;
-
-// // // // // //     this.pos.x = Math.min(Math.max(this.pos.x, minX), maxX);
-// // // // // //     this.pos.y = Math.min(Math.max(this.pos.y, minY), maxY);
-// // // // // //   }
-// // // // // // }
-
-
-// // // // // import { Actor, Keys, CollisionType, Vector } from "excalibur";
-// // // // // import { Resources } from "./resources.js";
-// // // // // import { Bullet } from "./bullet.js";
-
-// // // // // export class Shooter extends Actor {
-// // // // //   constructor() {
-// // // // //     super({
-// // // // //       width: 40,
-// // // // //       height: 60,
-// // // // //       collisionType: CollisionType.Active,
-// // // // //     });
-
-// // // // //     this.speed = 200;
-// // // // //     this.name = "shooter";
-// // // // //     this.targetRotation = 0;
-// // // // //     this.currentRotation = 0;
-// // // // //     this.scale = new Vector(0.6, 0.6);
-// // // // //     this.ammo = 10; // ✅ ammo toegevoegd
-// // // // //   }
-
-// // // // //   onInitialize(engine) {
-// // // // //     this.graphics.use(Resources.Shooter.toSprite());
-// // // // //     this.pos = new Vector(engine.halfDrawWidth, engine.halfDrawHeight);
-
-// // // // //     engine.input.pointers.primary.on("move", (evt) => {
-// // // // //       const mousePos = evt.worldPos;
-// // // // //       const direction = mousePos.sub(this.pos);
-// // // // //       if (direction.magnitude > 0) {
-// // // // //         this.targetRotation = direction.toAngle();
-// // // // //       }
-// // // // //     });
-
-// // // // //     engine.input.pointers.primary.on("down", (evt) => {
-// // // // //       if (this.ammo > 0) {
-// // // // //         const direction = Vector.fromAngle(this.targetRotation);
-// // // // //         const bullet = new Bullet(this.pos.clone(), direction);
-// // // // //         engine.add(bullet);
-// // // // //         this.ammo--; // ✅ ammo verlagen
-// // // // //       } else {
-// // // // //         console.log("Geen ammo meer!");
-// // // // //       }
-// // // // //     });
-// // // // //   }
-
-// // // // //   lerpAngle(a, b, t) {
-// // // // //     let diff = b - a;
-// // // // //     if (diff < -Math.PI) diff += Math.PI * 2;
-// // // // //     if (diff > Math.PI) diff -= Math.PI * 2;
-// // // // //     return a + diff * t;
-// // // // //   }
-
-// // // // //   onPreUpdate(engine, delta) {
-// // // // //     const moveDir = new Vector(0, 0);
-// // // // //     if (engine.input.keyboard.isHeld(Keys.W)) moveDir.y -= 1;
-// // // // //     if (engine.input.keyboard.isHeld(Keys.S)) moveDir.y += 1;
-// // // // //     if (engine.input.keyboard.isHeld(Keys.A)) moveDir.x -= 1;
-// // // // //     if (engine.input.keyboard.isHeld(Keys.D)) moveDir.x += 1;
-
-// // // // //     if (moveDir.magnitude > 0) {
-// // // // //       this.vel = moveDir.normalize().scale(this.speed);
-// // // // //     } else {
-// // // // //       this.vel = Vector.Zero;
-// // // // //     }
-
-// // // // //     const smoothing = 10;
-// // // // //     this.currentRotation = this.lerpAngle(this.currentRotation, this.targetRotation, delta / 1000 * smoothing);
-// // // // //     this.rotation = this.currentRotation;
-// // // // //   }
-
-// // // // //   onPostUpdate(engine, delta) {
-// // // // //     const halfWidth = (this.width * this.scale.x) / 2;
-// // // // //     const halfHeight = (this.height * this.scale.y) / 2;
-
-// // // // //     const minX = 0 + halfWidth;
-// // // // //     const minY = 0 + halfHeight;
-// // // // //     const maxX = 2000 - halfWidth;
-// // // // //     const maxY = 1200 - halfHeight;
-
-// // // // //     this.pos.x = Math.min(Math.max(this.pos.x, minX), maxX);
-// // // // //     this.pos.y = Math.min(Math.max(this.pos.y, minY), maxY);
-// // // // //   }
-// // // // // }
-
-
-// // // // import { Actor, Keys, CollisionType, Vector } from "excalibur";
-// // // // import { Resources } from "./resources.js";
-// // // // import { Bullet } from "./bullet.js";
-
-// // // // export class Shooter extends Actor {
-// // // //   constructor() {
-// // // //     super({
-// // // //       width: 80,
-// // // //       height: 100,
-// // // //       collisionType: CollisionType.Active,
-// // // //     });
-
-// // // //     this.speed = 200;
-// // // //     this.name = "shooter";
-// // // //     this.targetRotation = 0;
-// // // //     this.currentRotation = 0;
-// // // //     this.ammo = 10;
-
-// // // //     this.scale = new Vector(0.6, 0.6);
-// // // //   }
-
-// // // //   onInitialize(engine) {
-// // // //     this.graphics.use(Resources.Shooter.toSprite());
-// // // //     this.pos = new Vector(engine.halfDrawWidth, engine.halfDrawHeight);
-
-// // // //     engine.input.pointers.primary.on("move", (evt) => {
-// // // //       const mousePos = evt.worldPos;
-// // // //       const direction = mousePos.sub(this.pos);
-// // // //       if (direction.magnitude > 0) {
-// // // //         this.targetRotation = direction.toAngle();
-// // // //       }
-// // // //     });
-
-// // // //     engine.input.pointers.primary.on("down", (evt) => {
-// // // //       if (this.ammo > 0) {
-// // // //         const direction = Vector.fromAngle(this.targetRotation);
-// // // //         const bullet = new Bullet(this.pos.clone(), direction);
-// // // //         engine.add(bullet);
-// // // //         this.ammo--;
-// // // //         engine.ui?.showAmmo(this.ammo);
-// // // //       }
-// // // //     });
-
-// // // //     this.addAmmo = function (amount) {
-// // // //       this.ammo += amount;
-// // // //       engine.ui?.showAmmo(this.ammo);
-// // // //     };
-// // // //   }
-
-// // // //   lerpAngle(a, b, t) {
-// // // //     let diff = b - a;
-// // // //     if (diff < -Math.PI) diff += Math.PI * 2;
-// // // //     if (diff > Math.PI) diff -= Math.PI * 2;
-// // // //     return a + diff * t;
-// // // //   }
-
-// // // //   onPreUpdate(engine, delta) {
-// // // //     const moveDir = new Vector(0, 0);
-// // // //     if (engine.input.keyboard.isHeld(Keys.W)) moveDir.y -= 1;
-// // // //     if (engine.input.keyboard.isHeld(Keys.S)) moveDir.y += 1;
-// // // //     if (engine.input.keyboard.isHeld(Keys.A)) moveDir.x -= 1;
-// // // //     if (engine.input.keyboard.isHeld(Keys.D)) moveDir.x += 1;
-
-// // // //     if (moveDir.magnitude > 0) {
-// // // //       this.vel = moveDir.normalize().scale(this.speed);
-// // // //     } else {
-// // // //       this.vel = Vector.Zero;
-// // // //     }
-
-// // // //     const smoothing = 10;
-// // // //     this.currentRotation = this.lerpAngle(this.currentRotation, this.targetRotation, delta / 1000 * smoothing);
-// // // //     this.rotation = this.currentRotation;
-// // // //   }
-
-// // // //   onPostUpdate(engine, delta) {
-// // // //     const halfWidth = (this.width * this.scale.x) / 2;
-// // // //     const halfHeight = (this.height * this.scale.y) / 2;
-
-// // // //     const minX = 0 + halfWidth;
-// // // //     const minY = 0 + halfHeight;
-// // // //     const maxX = 2000 - halfWidth;
-// // // //     const maxY = 1200 - halfHeight;
-
-// // // //     this.pos.x = Math.min(Math.max(this.pos.x, minX), maxX);
-// // // //     this.pos.y = Math.min(Math.max(this.pos.y, minY), maxY);
-// // // //   }
-// // // // }
-
-
-// // // import { Actor, Keys, CollisionType, Vector } from "excalibur";
-// // // import { Resources } from "./resources.js";
-// // // import { Bullet } from "./bullet.js";
-
-// // // export class Shooter extends Actor {
-// // //   constructor() {
-// // //     super({
-// // //       width: 80,
-// // //       height: 100,
-// // //       collisionType: CollisionType.Active,
-// // //     });
-
-// // //     this.speed = 200;
-// // //     this.name = "shooter";
-// // //     this.targetRotation = 0;
-// // //     this.currentRotation = 0;
-// // //     this.ammo = 10;
-
-// // //     this.scale = new Vector(0.6, 0.6);
-// // //   }
-
-// // //   onInitialize(engine) {
-// // //     this.graphics.use(Resources.Shooter.toSprite());
-// // //     this.pos = new Vector(engine.halfDrawWidth, engine.halfDrawHeight);
-
-// // //     engine.input.pointers.primary.on("move", (evt) => {
-// // //       const mousePos = evt.worldPos;
-// // //       const direction = mousePos.sub(this.pos);
-// // //       if (direction.magnitude > 0) {
-// // //         this.targetRotation = direction.toAngle();
-// // //       }
-// // //     });
-
-// // //     engine.input.pointers.primary.on("down", (evt) => {
-// // //       if (this.ammo > 0) {
-// // //         const direction = Vector.fromAngle(this.targetRotation);
-// // //         const bullet = new Bullet(this.pos.clone(), direction);
-// // //         engine.add(bullet);
-// // //         this.ammo--;
-// // //         engine.ui?.showAmmo(this.ammo);
-// // //       }
-// // //     });
-
-// // //     this.addAmmo = function (amount) {
-// // //       this.ammo += amount;
-// // //       engine.ui?.showAmmo(this.ammo);
-// // //     };
-// // //   }
-
-// // //   lerpAngle(a, b, t) {
-// // //     let diff = b - a;
-// // //     if (diff < -Math.PI) diff += Math.PI * 2;
-// // //     if (diff > Math.PI) diff -= Math.PI * 2;
-// // //     return a + diff * t;
-// // //   }
-
-// // //   onPreUpdate(engine, delta) {
-// // //     const moveDir = new Vector(0, 0);
-// // //     if (engine.input.keyboard.isHeld(Keys.W)) moveDir.y -= 1;
-// // //     if (engine.input.keyboard.isHeld(Keys.S)) moveDir.y += 1;
-// // //     if (engine.input.keyboard.isHeld(Keys.A)) moveDir.x -= 1;
-// // //     if (engine.input.keyboard.isHeld(Keys.D)) moveDir.x += 1;
-
-// // //     if (moveDir.magnitude > 0) {
-// // //       this.vel = moveDir.normalize().scale(this.speed);
-// // //     } else {
-// // //       this.vel = Vector.Zero;
-// // //     }
-
-// // //     const smoothing = 10;
-// // //     this.currentRotation = this.lerpAngle(this.currentRotation, this.targetRotation, delta / 1000 * smoothing);
-// // //     this.rotation = this.currentRotation;
-// // //   }
-
-// // //   onPostUpdate(engine, delta) {
-// // //     const halfWidth = (this.width * this.scale.x) / 2;
-// // //     const halfHeight = (this.height * this.scale.y) / 2;
-
-// // //     const minX = 0 + halfWidth;
-// // //     const minY = 0 + halfHeight;
-// // //     const maxX = 2000 - halfWidth;
-// // //     const maxY = 1200 - halfHeight;
-
-// // //     this.pos.x = Math.min(Math.max(this.pos.x, minX), maxX);
-// // //     this.pos.y = Math.min(Math.max(this.pos.y, minY), maxY);
-// // //   }
-// // // }
-
-
-// // import { Actor, Keys, CollisionType, Vector } from "excalibur";
-// // import { Resources } from "./resources.js";
-// // import { Bullet } from "./bullet.js";
-
-// // export class Shooter extends Actor {
-// //   constructor() {
-// //     super({
-// //       width: 80,
-// //       height: 100,
-// //       collisionType: CollisionType.Active,
-// //     });
-
-// //     this.speed = 200;
-// //     this.name = "shooter";
-// //     this.targetRotation = 0;
-// //     this.currentRotation = 0;
-// //     this.ammo = 10;
-
-// //     this.maxHealth = 100;
-// //     this.health = this.maxHealth;
-
-// //     this.scale = new Vector(0.6, 0.6);
-// //   }
-
-// //   onInitialize(engine) {
-// //     this.graphics.use(Resources.Shooter.toSprite());
-// //     this.pos = new Vector(engine.halfDrawWidth, engine.halfDrawHeight);
-
-// //     engine.input.pointers.primary.on("move", (evt) => {
-// //       const mousePos = evt.worldPos;
-// //       const direction = mousePos.sub(this.pos);
-// //       if (direction.magnitude > 0) {
-// //         this.targetRotation = direction.toAngle();
-// //       }
-// //     });
-
-// //     engine.input.pointers.primary.on("down", (evt) => {
-// //       if (this.ammo > 0) {
-// //         const direction = Vector.fromAngle(this.targetRotation);
-// //         const bullet = new Bullet(this.pos.clone(), direction);
-// //         engine.add(bullet);
-// //         this.ammo--;
-// //         engine.ui?.showAmmo(this.ammo);
-// //       }
-// //     });
-
-// //     this.addAmmo = function (amount) {
-// //       this.ammo += amount;
-// //       engine.ui?.showAmmo(this.ammo);
-// //     };
-
-// //     this.takeDamage = function (amount) {
-// //       this.health -= amount;
-// //       if (this.health < 0) this.health = 0;
-// //       engine.ui?.showHealth(this.health / this.maxHealth);
-
-// //       if (this.health <= 0) {
-// //         this.kill();
-// //         engine.gameOver();
-// //       }
-// //     };
-
-// //     // Direct health tonen bij start
-// //     engine.ui?.showHealth(this.health / this.maxHealth);
-// //   }
-
-// //   lerpAngle(a, b, t) {
-// //     let diff = b - a;
-// //     if (diff < -Math.PI) diff += Math.PI * 2;
-// //     if (diff > Math.PI) diff -= Math.PI * 2;
-// //     return a + diff * t;
-// //   }
-
-// //   onPreUpdate(engine, delta) {
-// //     const moveDir = new Vector(0, 0);
-// //     if (engine.input.keyboard.isHeld(Keys.W)) moveDir.y -= 1;
-// //     if (engine.input.keyboard.isHeld(Keys.S)) moveDir.y += 1;
-// //     if (engine.input.keyboard.isHeld(Keys.A)) moveDir.x -= 1;
-// //     if (engine.input.keyboard.isHeld(Keys.D)) moveDir.x += 1;
-
-// //     if (moveDir.magnitude > 0) {
-// //       this.vel = moveDir.normalize().scale(this.speed);
-// //     } else {
-// //       this.vel = Vector.Zero;
-// //     }
-
-// //     const smoothing = 10;
-// //     this.currentRotation = this.lerpAngle(this.currentRotation, this.targetRotation, delta / 1000 * smoothing);
-// //     this.rotation = this.currentRotation;
-// //   }
-
-// //   onPostUpdate(engine, delta) {
-// //     const halfWidth = (this.width * this.scale.x) / 2;
-// //     const halfHeight = (this.height * this.scale.y) / 2;
-
-// //     const minX = 0 + halfWidth;
-// //     const minY = 0 + halfHeight;
-// //     const maxX = 2000 - halfWidth;
-// //     const maxY = 1200 - halfHeight;
-
-// //     this.pos.x = Math.min(Math.max(this.pos.x, minX), maxX);
-// //     this.pos.y = Math.min(Math.max(this.pos.y, minY), maxY);
-// //   }
-// // // }
-// // import { Actor, Keys, CollisionType, Vector } from "excalibur";
-// // import { Resources } from "./resources.js";
-// // import { Bullet } from "./bullet.js";
-
-// // export class Shooter extends Actor {
-// //   constructor() {
-// //     super({
-// //       width: 80,
-// //       height: 100,
-// //       collisionType: CollisionType.Active,
-// //     });
-
-// //     this.speed = 200;
-// //     this.name = "shooter";
-// //     this.targetRotation = 0;
-// //     this.currentRotation = 0;
-
-// //     this.ammo = 10;       // current ammo in clip
-// //     this.totalAmmo = 200; // total reserve ammo
-
-// //     this.maxHealth = 100;
-// //     this.health = this.maxHealth;
-
-// //     this.isReloading = false;
-
-// //     this.scale = new Vector(0.6, 0.6);
-
-// //     this.reloadTime = 2000; // 2 seconds reload
-// //   }
-
-// //   onInitialize(engine) {
-// //     this.graphics.use(Resources.Shooter.toSprite());
-// //     this.pos = new Vector(engine.halfDrawWidth, engine.halfDrawHeight);
-
-// //     engine.input.pointers.primary.on("move", (evt) => {
-// //       const mousePos = evt.worldPos;
-// //       const direction = mousePos.sub(this.pos);
-// //       if (direction.magnitude > 0) {
-// //         this.targetRotation = direction.toAngle();
-// //       }
-// //     });
-
-// //     engine.input.pointers.primary.on("down", (evt) => {
-// //       if (this.ammo > 0 && !this.isReloading) {
-// //         const direction = Vector.fromAngle(this.targetRotation);
-// //         const bullet = new Bullet(this.pos.clone(), direction);
-// //         engine.add(bullet);
-// //         this.ammo--;
-// //         engine.ui?.showAmmo(this.ammo, this.totalAmmo);
-// //       } else if (this.ammo === 0 && !this.isReloading) {
-// //         this.reload(engine);
-// //       }
-// //     });
-
-// //     // Add keyboard reload (R key)
-// //     engine.input.keyboard.on("press", (evt) => {
-// //       if (evt.key === Keys.R && !this.isReloading) {
-// //         this.reload(engine);
-// //       }
-// //     });
-
-// //     // Initial UI updates
-// //     engine.ui?.showHealth(this.health / this.maxHealth);
-// //     engine.ui?.showAmmo(this.ammo, this.totalAmmo);
-// //     engine.ui?.setReloading(this.isReloading);
-// //   }
-
-// //   reload(engine) {
-// //     if (this.isReloading) return;
-// //     if (this.ammo === 10 || this.totalAmmo === 0) return; // Full clip or no ammo
-
-// //     this.isReloading = true;
-// //     engine.ui?.setReloading(true);
-
-// //     setTimeout(() => {
-// //       const neededAmmo = 10 - this.ammo;
-// //       const ammoToLoad = Math.min(neededAmmo, this.totalAmmo);
-
-// //       this.ammo += ammoToLoad;
-// //       this.totalAmmo -= ammoToLoad;
-
-// //       this.isReloading = false;
-// //       engine.ui?.showAmmo(this.ammo, this.totalAmmo);
-// //       engine.ui?.setReloading(false);
-// //     }, this.reloadTime);
-// //   }
-
-// //  addAmmo(amount, engine) {
-// //   this.totalAmmo += amount;
-// //   if (this.totalAmmo > 200) this.totalAmmo = 200; // cap max reserve ammo
-
-// //   // Optionally auto-reload if clip isn't full and not already reloading
-// //   if (this.ammo < 10 && !this.isReloading) {
-// //     const neededAmmo = 10 - this.ammo;
-// //     const ammoToLoad = Math.min(neededAmmo, this.totalAmmo);
-// //     this.ammo += ammoToLoad;
-// //     this.totalAmmo -= ammoToLoad;
-// //   }
-
-// //   // Update the UI immediately
-// //   if (engine?.ui) {
-// //     engine.ui.showAmmo(this.ammo, this.totalAmmo);
-// //   }
-// // }
-
-// //   lerpAngle(a, b, t) {
-// //     let diff = b - a;
-// //     if (diff < -Math.PI) diff += Math.PI * 2;
-// //     if (diff > Math.PI) diff -= Math.PI * 2;
-// //     return a + diff * t;
-// //   }
-
-// //   onPreUpdate(engine, delta) {
-// //     const moveDir = new Vector(0, 0);
-// //     if (engine.input.keyboard.isHeld(Keys.W)) moveDir.y -= 1;
-// //     if (engine.input.keyboard.isHeld(Keys.S)) moveDir.y += 1;
-// //     if (engine.input.keyboard.isHeld(Keys.A)) moveDir.x -= 1;
-// //     if (engine.input.keyboard.isHeld(Keys.D)) moveDir.x += 1;
-
-// //     if (moveDir.magnitude > 0) {
-// //       this.vel = moveDir.normalize().scale(this.speed);
-// //     } else {
-// //       this.vel = Vector.Zero;
-// //     }
-
-// //     const smoothing = 10;
-// //     this.currentRotation = this.lerpAngle(this.currentRotation, this.targetRotation, delta / 1000 * smoothing);
-// //     this.rotation = this.currentRotation;
-// //   }
-
-// //   onPostUpdate(engine, delta) {
-// //     const halfWidth = (this.width * this.scale.x) / 2;
-// //     const halfHeight = (this.height * this.scale.y) / 2;
-
-// //     const minX = 0 + halfWidth;
-// //     const minY = 0 + halfHeight;
-// //     const maxX = 2000 - halfWidth;
-// //     const maxY = 1200 - halfHeight;
-
-// //     this.pos.x = Math.min(Math.max(this.pos.x, minX), maxX);
-// //     this.pos.y = Math.min(Math.max(this.pos.y, minY), maxY);
-// //   }
-// // }
-
-
 // import { Actor, Keys, CollisionType, Vector } from "excalibur";
 // import { Resources } from "./resources.js";
 // import { Bullet } from "./bullet.js";
@@ -853,12 +60,11 @@
 //       }
 //     });
 
-//     // Example collision damage: take damage if touched by harmful actor
+//     // Collision: take damage when zombies touch player
 //     this.on("collisionstart", (evt) => {
-//       const other = evt.other;
-//       // Check if other entity is harmful, for example a zombie or enemy
-//       if (other && other.name === "zombie") {
-//         this.takeDamage(10, engine); // take 10 damage on collision with zombie
+//       const other = evt.other?.owner;
+//       if (other && (other.name === "zombie" || other.name === "fastzombie")) {
+//         this.takeDamage(10, engine); // damage 10 per collision
 //       }
 //     });
 
@@ -916,7 +122,7 @@
 //     // Check if player died
 //     if (this.health <= 0) {
 //       this.kill();
-//       engine.gameOver?.(); // call game over method if exists
+//       engine.gameOver?.();
 //     }
 //   }
 
@@ -958,13 +164,22 @@
 //     this.pos.y = Math.min(Math.max(this.pos.y, minY), maxY);
 //   }
 // }
-
-
 import { Actor, Keys, CollisionType, Vector } from "excalibur";
 import { Resources } from "./resources.js";
 import { Bullet } from "./bullet.js";
 
 export class Shooter extends Actor {
+  // Privé velden voor encapsulatie
+  #speed;
+  #targetRotation;
+  #currentRotation;
+  #ammo;       // current ammo in clip
+  #totalAmmo;  // total reserve ammo
+  #maxHealth;
+  #health;
+  #isReloading;
+  #reloadTime;
+
   constructor() {
     super({
       width: 80,
@@ -972,122 +187,139 @@ export class Shooter extends Actor {
       collisionType: CollisionType.Active,
     });
 
-    this.speed = 200;
+    // Snelheid van de speler
+    this.#speed = 200;
     this.name = "shooter";
-    this.targetRotation = 0;
-    this.currentRotation = 0;
 
-    this.ammo = 10;       // current ammo in clip
-    this.totalAmmo = 200; // total reserve ammo
+    // Rotaties voor richting van schieten
+    this.#targetRotation = 0;
+    this.#currentRotation = 0;
 
-    this.maxHealth = 100;
-    this.health = this.maxHealth;
+    // Munitie beheer
+    this.#ammo = 10;
+    this.#totalAmmo = 200;
 
-    this.isReloading = false;
+    // Gezondheid van de speler
+    this.#maxHealth = 100;
+    this.#health = this.#maxHealth;
 
+    // Reload status
+    this.#isReloading = false;
+
+    // Schaal van het plaatje
     this.scale = new Vector(0.6, 0.6);
 
-    this.reloadTime = 2000; // 2 seconds reload
+    // Tijd in milliseconden om te herladen
+    this.#reloadTime = 2000;
   }
 
   onInitialize(engine) {
+    // Stel het plaatje in van de speler
     this.graphics.use(Resources.Shooter.toSprite());
+
+    // Startpositie in het midden van het scherm
     this.pos = new Vector(engine.halfDrawWidth, engine.halfDrawHeight);
 
+    // Mouse move event: bereken de nieuwe doelrotatie op basis van muispositie
     engine.input.pointers.primary.on("move", (evt) => {
       const mousePos = evt.worldPos;
       const direction = mousePos.sub(this.pos);
       if (direction.magnitude > 0) {
-        this.targetRotation = direction.toAngle();
+        this.#targetRotation = direction.toAngle();
       }
     });
 
+    // Mouse click event: schiet een kogel als er munitie is, anders reload
     engine.input.pointers.primary.on("down", (evt) => {
-      if (this.ammo > 0 && !this.isReloading) {
-        const direction = Vector.fromAngle(this.targetRotation);
+      if (this.#ammo > 0 && !this.#isReloading) {
+        const direction = Vector.fromAngle(this.#targetRotation);
         const bullet = new Bullet(this.pos.clone(), direction);
         engine.add(bullet);
-        this.ammo--;
-        engine.ui?.showAmmo(this.ammo, this.totalAmmo);
-      } else if (this.ammo === 0 && !this.isReloading) {
+        this.#ammo--;
+        engine.ui?.showAmmo(this.#ammo, this.#totalAmmo);
+      } else if (this.#ammo === 0 && !this.#isReloading) {
         this.reload(engine);
       }
     });
 
-    // Add keyboard reload (R key)
+    // Keyboard event: herladen bij indrukken van R
     engine.input.keyboard.on("press", (evt) => {
-      if (evt.key === Keys.R && !this.isReloading) {
+      if (evt.key === Keys.R && !this.#isReloading) {
         this.reload(engine);
       }
     });
 
-    // Collision: take damage when zombies touch player
+    // Botsing met zombies zorgt voor schade
     this.on("collisionstart", (evt) => {
       const other = evt.other?.owner;
       if (other && (other.name === "zombie" || other.name === "fastzombie")) {
-        this.takeDamage(10, engine); // damage 10 per collision
+        this.takeDamage(10, engine);
       }
     });
 
-    // Initial UI updates
-    engine.ui?.showHealth(this.health / this.maxHealth);
-    engine.ui?.showAmmo(this.ammo, this.totalAmmo);
-    engine.ui?.setReloading(this.isReloading);
+    // Initialiseer UI met gezondheid en munitie
+    engine.ui?.showHealth(this.#health / this.#maxHealth);
+    engine.ui?.showAmmo(this.#ammo, this.#totalAmmo);
+    engine.ui?.setReloading(this.#isReloading);
   }
 
   reload(engine) {
-    if (this.isReloading) return;
-    if (this.ammo === 10 || this.totalAmmo === 0) return; // Full clip or no ammo
+    // Start reload alleen als niet al bezig en clip niet vol en reserve ammo beschikbaar
+    if (this.#isReloading) return;
+    if (this.#ammo === 10 || this.#totalAmmo === 0) return;
 
-    this.isReloading = true;
+    this.#isReloading = true;
     engine.ui?.setReloading(true);
 
+    // Na reloadtijd wordt munitie aangevuld
     setTimeout(() => {
-      const neededAmmo = 10 - this.ammo;
-      const ammoToLoad = Math.min(neededAmmo, this.totalAmmo);
+      const neededAmmo = 10 - this.#ammo;
+      const ammoToLoad = Math.min(neededAmmo, this.#totalAmmo);
 
-      this.ammo += ammoToLoad;
-      this.totalAmmo -= ammoToLoad;
+      this.#ammo += ammoToLoad;
+      this.#totalAmmo -= ammoToLoad;
 
-      this.isReloading = false;
-      engine.ui?.showAmmo(this.ammo, this.totalAmmo);
+      this.#isReloading = false;
+      engine.ui?.showAmmo(this.#ammo, this.#totalAmmo);
       engine.ui?.setReloading(false);
-    }, this.reloadTime);
+    }, this.#reloadTime);
   }
 
   addAmmo(amount, engine) {
-    this.totalAmmo += amount;
-    if (this.totalAmmo > 200) this.totalAmmo = 200; // cap max reserve ammo
+    // Voeg reserve munitie toe en cap op max 200
+    this.#totalAmmo += amount;
+    if (this.#totalAmmo > 200) this.#totalAmmo = 200;
 
-    // Optionally auto-reload if clip isn't full and not already reloading
-    if (this.ammo < 10 && !this.isReloading) {
-      const neededAmmo = 10 - this.ammo;
-      const ammoToLoad = Math.min(neededAmmo, this.totalAmmo);
-      this.ammo += ammoToLoad;
-      this.totalAmmo -= ammoToLoad;
+    // Auto reload indien clip niet vol en niet aan het herladen
+    if (this.#ammo < 10 && !this.#isReloading) {
+      const neededAmmo = 10 - this.#ammo;
+      const ammoToLoad = Math.min(neededAmmo, this.#totalAmmo);
+      this.#ammo += ammoToLoad;
+      this.#totalAmmo -= ammoToLoad;
     }
 
-    // Update the UI immediately
+    // Update UI direct
     if (engine?.ui) {
-      engine.ui.showAmmo(this.ammo, this.totalAmmo);
+      engine.ui.showAmmo(this.#ammo, this.#totalAmmo);
     }
   }
 
   takeDamage(amount, engine) {
-    this.health -= amount;
-    if (this.health < 0) this.health = 0;
+    // Verminder gezondheid en update UI
+    this.#health -= amount;
+    if (this.#health < 0) this.#health = 0;
 
-    // Update UI health bar
-    engine.ui?.showHealth(this.health / this.maxHealth);
+    engine.ui?.showHealth(this.#health / this.#maxHealth);
 
-    // Check if player died
-    if (this.health <= 0) {
+    // Check dood
+    if (this.#health <= 0) {
       this.kill();
       engine.gameOver?.();
     }
   }
 
   lerpAngle(a, b, t) {
+    // Lineaire interpolatie tussen hoeken, houdt rekening met wrap-around
     let diff = b - a;
     if (diff < -Math.PI) diff += Math.PI * 2;
     if (diff > Math.PI) diff -= Math.PI * 2;
@@ -1095,6 +327,7 @@ export class Shooter extends Actor {
   }
 
   onPreUpdate(engine, delta) {
+    // Beweeg speler op basis van WASD input
     const moveDir = new Vector(0, 0);
     if (engine.input.keyboard.isHeld(Keys.W)) moveDir.y -= 1;
     if (engine.input.keyboard.isHeld(Keys.S)) moveDir.y += 1;
@@ -1102,17 +335,19 @@ export class Shooter extends Actor {
     if (engine.input.keyboard.isHeld(Keys.D)) moveDir.x += 1;
 
     if (moveDir.magnitude > 0) {
-      this.vel = moveDir.normalize().scale(this.speed);
+      this.vel = moveDir.normalize().scale(this.#speed);
     } else {
       this.vel = Vector.Zero;
     }
 
+    // Smooth rotatie richting muis
     const smoothing = 10;
-    this.currentRotation = this.lerpAngle(this.currentRotation, this.targetRotation, delta / 1000 * smoothing);
-    this.rotation = this.currentRotation;
+    this.#currentRotation = this.lerpAngle(this.#currentRotation, this.#targetRotation, delta / 1000 * smoothing);
+    this.rotation = this.#currentRotation;
   }
 
   onPostUpdate(engine, delta) {
+    // Houd speler binnen bounds van level
     const halfWidth = (this.width * this.scale.x) / 2;
     const halfHeight = (this.height * this.scale.y) / 2;
 

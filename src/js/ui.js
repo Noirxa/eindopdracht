@@ -1,266 +1,3 @@
-// // // // // // // // ui.js
-// // // // // // // import { Actor, Label, Font, FontUnit, Vector, Color } from "excalibur";
-
-// // // // // // // export class UI extends Actor {
-// // // // // // //   constructor() {
-// // // // // // //     super();
-
-// // // // // // //     this.label = new Label({
-// // // // // // //       text: "Score: 0",
-// // // // // // //       pos: new Vector(50, 50),
-// // // // // // //       font: new Font({
-// // // // // // //         family: "Arial",
-// // // // // // //         size: 28,
-// // // // // // //         unit: FontUnit.Px,
-// // // // // // //         color: Color.White,
-// // // // // // //       }),
-// // // // // // //     });
-
-// // // // // // //     this.addChild(this.label);
-// // // // // // //   }
-
-// // // // // // //   showScore(score) {
-// // // // // // //     this.label.text = `Score: ${score}`;
-// // // // // // //   }
-// // // // // // // }
-
-// // // // // // import { ScreenElement, Label, Font, FontUnit, Vector, Color } from "excalibur";
-
-// // // // // // export class UI extends ScreenElement {
-// // // // // //   constructor() {
-// // // // // //     super();
-// // // // // //     this.label = null;
-// // // // // //   }
-
-// // // // // //   onInitialize(engine) {
-// // // // // //     this.label = new Label({
-// // // // // //       text: "Score: 0",
-// // // // // //       pos: new Vector(20, 20),
-// // // // // //       font: new Font({
-// // // // // //         family: "Arial",
-// // // // // //         size: 28,
-// // // // // //         unit: FontUnit.Px,
-// // // // // //         color: Color.White,
-// // // // // //       }),
-// // // // // //       z: 1000,
-// // // // // //     });
-
-// // // // // //     this.label.anchor.setTo(0, 0); // top-left corner
-// // // // // //     engine.add(this.label);
-// // // // // //   }
-
-// // // // // //   showScore(score) {
-// // // // // //     if (this.label) {
-// // // // // //       this.label.text = `Score: ${score}`;
-// // // // // //     }
-// // // // // //   }
-// // // // // // }
-
-
-
-// // // // // import { Actor, Label, Font, FontUnit, Vector, Color } from "excalibur";
-
-// // // // // export class UI extends Actor {
-// // // // //   constructor() {
-// // // // //     super({
-// // // // //       pos: new Vector(0, 0),
-// // // // //       z: 1000, // render on top
-// // // // //     });
-
-// // // // //     this.label = new Label({
-// // // // //       text: "Score: 0",
-// // // // //       pos: new Vector(0, 0),
-// // // // //       font: new Font({
-// // // // //         family: "Arial",
-// // // // //         size: 28,
-// // // // //         unit: FontUnit.Px,
-// // // // //         color: Color.White,
-// // // // //       }),
-// // // // //       anchor: new Vector(0, 0), // top-left corner of the actor
-// // // // //     });
-
-// // // // //     this.addChild(this.label);
-// // // // //   }
-
-// // // // //   showScore(score) {
-// // // // //     this.label.text = `Score: ${score}`;
-// // // // //   }
-
-// // // // //   onPreUpdate(engine, delta) {
-// // // // //     // Position relative to camera/player
-// // // // //     const cam = engine.currentScene.camera;
-// // // // //     this.pos = cam.pos.sub(new Vector(engine.halfDrawWidth - 20, engine.halfDrawHeight - 20));
-// // // // //   }
-// // // // // }
-
-
-// // // // import { Actor, Label, Font, FontUnit, Vector, Color } from "excalibur";
-
-// // // // export class UI extends Actor {
-// // // //   constructor() {
-// // // //     super({
-// // // //       pos: new Vector(0, 0),
-// // // //       z: 1000,
-// // // //     });
-
-// // // //     this.label = new Label({
-// // // //       text: "Score: 0",
-// // // //       pos: new Vector(0, 0),
-// // // //       font: new Font({
-// // // //         family: "Arial",
-// // // //         size: 28,
-// // // //         unit: FontUnit.Px,
-// // // //         color: Color.White,
-// // // //       }),
-// // // //       anchor: new Vector(0, 0),
-// // // //     });
-
-// // // //     this.ammoLabel = new Label({
-// // // //       text: "Ammo: 10",
-// // // //       pos: new Vector(0, 40),
-// // // //       font: new Font({
-// // // //         family: "Arial",
-// // // //         size: 24,
-// // // //         unit: FontUnit.Px,
-// // // //         color: Color.Yellow,
-// // // //       }),
-// // // //       anchor: new Vector(0, 0),
-// // // //     });
-
-// // // //     this.addChild(this.label);
-// // // //     this.addChild(this.ammoLabel);
-// // // //   }
-
-// // // //   showScore(score) {
-// // // //     this.label.text = `Score: ${score}`;
-// // // //   }
-
-// // // //   showAmmo(ammo) {
-// // // //     this.ammoLabel.text = `Ammo: ${ammo}`;
-// // // //   }
-
-// // // //   onPreUpdate(engine, delta) {
-// // // //     const cam = engine.currentScene.camera;
-// // // //     this.pos = cam.pos.sub(new Vector(engine.halfDrawWidth - 20, engine.halfDrawHeight - 20));
-
-// // // //     // Ammo live updaten
-// // // //     const shooter = engine.currentScene.actors.find((a) => a.name === "shooter");
-// // // //     if (shooter) {
-// // // //       this.showAmmo(shooter.ammo);
-// // // //     }
-// // // //   }
-// // // // }
-
-// // // import { Actor, Label, Font, FontUnit, Vector, Color } from "excalibur";
-
-// // // export class UI extends Actor {
-// // //   constructor() {
-// // //     super({ pos: new Vector(0, 0), z: 1000 });
-
-// // //     this.label = new Label({
-// // //       text: "Score: 0",
-// // //       pos: new Vector(0, 0),
-// // //       font: new Font({
-// // //         family: "Arial",
-// // //         size: 28,
-// // //         unit: FontUnit.Px,
-// // //         color: Color.White,
-// // //       }),
-// // //       anchor: new Vector(0, 0),
-// // //     });
-
-// // //     this.ammoLabel = new Label({
-// // //       text: "Ammo: 10",
-// // //       pos: new Vector(0, 30),
-// // //       font: new Font({
-// // //         family: "Arial",
-// // //         size: 24,
-// // //         unit: FontUnit.Px,
-// // //         color: Color.Yellow,
-// // //       }),
-// // //       anchor: new Vector(0, 0),
-// // //     });
-
-// // //     this.addChild(this.label);
-// // //     this.addChild(this.ammoLabel);
-// // //   }
-
-// // //   showScore(score) {
-// // //     this.label.text = `Score: ${score}`;
-// // //   }
-
-// // //   showAmmo(ammo) {
-// // //     this.ammoLabel.text = `Ammo: ${ammo}`;
-// // //   }
-
-// // //   onPreUpdate(engine, delta) {
-// // //     const cam = engine.currentScene.camera;
-// // //     this.pos = cam.pos.sub(new Vector(engine.halfDrawWidth - 20, engine.halfDrawHeight - 20));
-// // //   }
-// // // }
-
-// // import { Actor, Label, Font, FontUnit, Vector, Color } from "excalibur";
-
-// // export class UI extends Actor {
-// //   constructor() {
-// //     super({ pos: new Vector(0, 0), z: 1000 });
-
-// //     this.label = new Label({
-// //       text: "Score: 0",
-// //       pos: new Vector(0, 0),
-// //       font: new Font({
-// //         family: "Arial",
-// //         size: 28,
-// //         unit: FontUnit.Px,
-// //         color: Color.White,
-// //       }),
-// //       anchor: new Vector(0, 0),
-// //     });
-
-// //     this.ammoLabel = new Label({
-// //       text: "Ammo: 10",
-// //       pos: new Vector(0, 30),
-// //       font: new Font({
-// //         family: "Arial",
-// //         size: 24,
-// //         unit: FontUnit.Px,
-// //         color: Color.Yellow,
-// //       }),
-// //       anchor: new Vector(0, 0),
-// //     });
-
-// //     this.highscoreLabel = new Label({
-// //       text: "Highscore: 0",
-// //       pos: new Vector(0, 60),
-// //       font: new Font({
-// //         family: "Arial",
-// //         size: 24,
-// //         unit: FontUnit.Px,
-// //         color: Color.LightBlue,
-// //       }),
-// //       anchor: new Vector(0, 0),
-// //     });
-
-// //     this.addChild(this.label);
-// //     this.addChild(this.ammoLabel);
-// //     this.addChild(this.highscoreLabel);
-// //   }
-
-// //   showScore(score, highscore) {
-// //     this.label.text = `Score: ${score}`;
-// //     this.highscoreLabel.text = `Highscore: ${highscore}`;
-// //   }
-
-// //   showAmmo(ammo) {
-// //     this.ammoLabel.text = `Ammo: ${ammo}`;
-// //   }
-
-// //   onPreUpdate(engine, delta) {
-// //     const cam = engine.currentScene.camera;
-// //     this.pos = cam.pos.sub(new Vector(engine.halfDrawWidth - 20, engine.halfDrawHeight - 20));
-// //   }
-// // }
-
 
 // import { ScreenElement, Label, Actor, Color, Font, FontUnit, Vector, Rectangle } from 'excalibur';
 
@@ -388,18 +125,28 @@
 import { ScreenElement, Label, Actor, Color, Font, FontUnit, Vector, Rectangle } from 'excalibur';
 
 export class UI extends ScreenElement {
+  // Private velden voor encapsulatie van UI status
+  #score;
+  #highscore;
+  #ammo;
+  #totalAmmo;
+  #healthRatio;
+  #isReloading;
+
   constructor() {
     super({ x: 20, y: 20, z: 1000 });
 
-    this.score = 0;
-    this.highscore = 0;
-    this.ammo = 0;
-    this.totalAmmo = 0;
-    this.healthRatio = 1;
-    this.isReloading = false;
+    // Initialiseer privé status waarden
+    this.#score = 0;
+    this.#highscore = 0;
+    this.#ammo = 0;
+    this.#totalAmmo = 0;
+    this.#healthRatio = 1;
+    this.#isReloading = false;
   }
 
   onInitialize() {
+    // Maak een font aan voor alle labels
     const font = new Font({
       family: 'Arial',
       size: 18,
@@ -407,21 +154,21 @@ export class UI extends ScreenElement {
       color: Color.Black,
     });
 
-    // Score label
+    // Score label bovenaan
     this.scoreLabel = new Label({
-      text: `Score: ${this.score}`,
+      text: `Score: ${this.#score}`,
       pos: new Vector(0, 0),
       font: font,
     });
 
-    // Highscore label
+    // Highscore label net onder de score
     this.highscoreLabel = new Label({
-      text: `High Score: ${this.highscore}`,
+      text: `High Score: ${this.#highscore}`,
       pos: new Vector(0, 25),
       font: font,
     });
 
-    // Health background (red)
+    // Rode achtergrond voor health bar
     this.healthBg = new Actor({
       pos: new Vector(0, 55),
       anchor: Vector.Zero,
@@ -434,7 +181,7 @@ export class UI extends ScreenElement {
       color: Color.Red,
     }));
 
-    // Health bar (green)
+    // Groene balk voor de huidige health
     this.healthBar = new Actor({
       pos: new Vector(0, 55),
       anchor: Vector.Zero,
@@ -447,14 +194,14 @@ export class UI extends ScreenElement {
       color: Color.Green,
     }));
 
-    // Ammo label
+    // Ammo label toont huidige en totale munitie
     this.ammoLabel = new Label({
-      text: `Ammo: ${this.ammo}/${this.totalAmmo}`,
+      text: `Ammo: ${this.#ammo}/${this.#totalAmmo}`,
       pos: new Vector(0, 85),
       font: font,
     });
 
-    // Reloading label (hidden unless reloading)
+    // Reload label verschijnt alleen tijdens herladen
     this.reloadLabel = new Label({
       text: '',
       pos: new Vector(0, 115),
@@ -462,7 +209,7 @@ export class UI extends ScreenElement {
       color: Color.Red,
     });
 
-    // Add all UI elements as children of this ScreenElement
+    // Voeg alle UI onderdelen toe aan dit scherm element
     this.addChild(this.scoreLabel);
     this.addChild(this.highscoreLabel);
     this.addChild(this.healthBg);
@@ -472,37 +219,44 @@ export class UI extends ScreenElement {
   }
 
   onPreUpdate() {
-    // Update texts dynamically each frame
-    this.scoreLabel.text = `Score: ${this.score}`;
-    this.highscoreLabel.text = `High Score: ${this.highscore}`;
+    // Update de tekst van score en highscore elke frame
+    this.scoreLabel.text = `Score: ${this.#score}`;
+    this.highscoreLabel.text = `High Score: ${this.#highscore}`;
 
-    // Update health bar width based on health ratio (0-1)
-    const healthWidth = 200 * this.healthRatio;
+    // Pas de breedte van de groene health bar aan volgens healthRatio (0-1)
+    const healthWidth = 200 * this.#healthRatio;
     this.healthBar.graphics.use(new Rectangle({
       width: healthWidth,
       height: 20,
       color: Color.Green,
     }));
 
-    this.ammoLabel.text = `Ammo: ${this.ammo}/${this.totalAmmo}`;
-    this.reloadLabel.text = this.isReloading ? 'Reloading...' : '';
+    // Update de ammo tekst
+    this.ammoLabel.text = `Ammo: ${this.#ammo}/${this.#totalAmmo}`;
+
+    // Laat 'Reloading...' zien als herladen bezig is
+    this.reloadLabel.text = this.#isReloading ? 'Reloading...' : '';
   }
 
   showScore(score, highscore) {
-    this.score = score;
-    this.highscore = highscore;
+    // Update interne score en highscore
+    this.#score = score;
+    this.#highscore = highscore;
   }
 
   showAmmo(ammo, totalAmmo) {
-    this.ammo = ammo;
-    this.totalAmmo = totalAmmo ?? this.totalAmmo;
+    // Update huidige en totale munitie waarden
+    this.#ammo = ammo;
+    this.#totalAmmo = totalAmmo ?? this.#totalAmmo;
   }
 
   showHealth(ratio) {
-    this.healthRatio = ratio;
+    // Update health ratio (0-1)
+    this.#healthRatio = ratio;
   }
 
   setReloading(isReloading) {
-    this.isReloading = isReloading;
+    // Zet reload status aan/uit
+    this.#isReloading = isReloading;
   }
 }
