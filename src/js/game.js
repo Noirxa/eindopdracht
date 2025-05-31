@@ -1050,7 +1050,9 @@
 // import { Engine, DisplayMode, Vector, Actor } from "excalibur";
 // import { Resources, ResourceLoader } from "./resources.js";
 // import { Shooter } from "./shooter.js";
-// import { Zombie, FastZombie } from "./zombie.js";
+// // import { Zombie, FastZombie } from "./zombie.js";
+// import { Zombie, FastZombie, getRandomEdgePosition } from './zombie.js';
+
 // import { UI } from "./ui.js";
 // import { Background } from "./background.js";  // Nieuwe achtergrond class importeren
 
@@ -1142,7 +1144,9 @@
 //   gameOver() {
 //     if (!this.isGameOver) {
 //       this.isGameOver = true;
-//       clearInterval(this.zombieInterval);
+//       if (this.zombieInterval !== null) {
+//         clearInterval(this.zombieInterval);
+//       }
 //       alert("Game Over! Een zombie heeft je geraakt.");
 //     }
 //   }
@@ -1150,13 +1154,13 @@
 
 // new Game();
 
-
-import { Engine, DisplayMode, Vector, Actor } from "excalibur";
+import { Engine, DisplayMode, Vector } from "excalibur";
 import { Resources, ResourceLoader } from "./resources.js";
 import { Shooter } from "./shooter.js";
 import { Zombie, FastZombie } from "./zombie.js";
+import { AmmoPickup } from "./pickup.js";
 import { UI } from "./ui.js";
-import { Background } from "./background.js"; // importeer de nieuwe background class
+import { Background } from "./background.js";
 
 export class Game extends Engine {
   constructor() {
@@ -1171,31 +1175,27 @@ export class Game extends Engine {
     this.ui = null;
     this.isGameOver = false;
     this.zombieInterval = null;
+    this.ammoInterval = null;
 
     this.start(ResourceLoader).then(() => this.startGame());
   }
 
   startGame() {
-    // Voeg de eindeloos herhalende achtergrond toe
     const background = new Background();
-    background.z = -1; // altijd achter alles
     this.add(background);
 
-    // UI
     this.ui = new UI();
     this.ui.pos = new Vector(20, 20);
     this.ui.z = 1000;
     this.add(this.ui);
 
-    // Speler
     this.shooter = new Shooter();
     this.add(this.shooter);
 
-    // Camera volgt speler met zachte overgang
     this.currentScene.camera.strategy.elasticToActor(this.shooter, 0.1, 0.05);
 
-    // Start zombies spawnen
     this.startSpawningZombies();
+    this.startSpawningAmmo();
   }
 
   startSpawningZombies() {
@@ -1205,8 +1205,19 @@ export class Game extends Engine {
     }, 2000);
   }
 
+  startSpawningAmmo() {
+    this.ammoInterval = setInterval(() => {
+      if (!this.isGameOver) {
+        const x = Math.random() * this.drawWidth;
+        const y = Math.random() * this.drawHeight;
+        const pickup = new AmmoPickup(new Vector(x, y));
+        this.add(pickup);
+      }
+    }, 8000);
+  }
+
   spawnZombie() {
-    const margin = 100; // spawn buiten beeld
+    const margin = 100;
     const sides = ["top", "bottom", "left", "right"];
     const side = sides[Math.floor(Math.random() * sides.length)];
     let x, y;
@@ -1227,7 +1238,6 @@ export class Game extends Engine {
 
     const isFast = Math.random() < 0.4;
     const zombie = isFast ? new FastZombie(this.shooter) : new Zombie(this.shooter);
-
     zombie.pos = new Vector(x, y);
 
     zombie.on("killed", () => {
@@ -1246,6 +1256,7 @@ export class Game extends Engine {
     if (!this.isGameOver) {
       this.isGameOver = true;
       clearInterval(this.zombieInterval);
+      clearInterval(this.ammoInterval);
       alert("Game Over! Een zombie heeft je geraakt.");
     }
   }
