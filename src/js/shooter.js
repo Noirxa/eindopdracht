@@ -42,7 +42,7 @@ export class Shooter extends Actor {
     this.#isReloading = false;
 
     // Schaal van het plaatje
-    this.scale = new Vector(0.6, 0.6);
+    this.scale = new Vector(0.5, 0.5);
 
     // Tijd in milliseconden om te herladen
     this.#reloadTime = 2000;
